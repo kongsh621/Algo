@@ -51,16 +51,23 @@ public class PRO_72410 {
         // 3 미만은 마지막 글자를 늘여 3에 맞춰줌
         int afterLen = sb.length();
         lastIdx = sb.length()-1;
-        StringBuilder newSb = new StringBuilder();
+//        StringBuilder newSb;
         if (afterLen > 15){
-            for (int i = 0; i < 15; i++){
-                newSb.append(sb.charAt(i));
-            }
+            // 방법1. 반복문으로 15글자까지 잘라줌
+//            for (int i = 0; i < 15; i++){
+//                newSb.append(sb.charAt(i));
+//            }
+
+            // 방법2. 이렇게 자르는 게 더 효율적
+//            newSb = new StringBuilder(sb.substring(0, 15));
+            
+            // 방법3. 기존의 sb를 재활용하는 게 가장 깔끔하고 메모리를 아낄 수 있다.
+            sb.setLength(15);
+            
             // 글자수를 줄였으니 마지막으로 .로 끝나는지 체크 후 정리
-            if (newSb.charAt(14) == '.'){
-                newSb.deleteCharAt(14);
+            if (sb.charAt(14) == '.'){
+                sb.deleteCharAt(14);
             }
-            return newSb.toString();
         } else if (afterLen < 3){
             while (afterLen++ < 3){
                 // 길이가 3이 될 때까지 마지막 문자로 채움
