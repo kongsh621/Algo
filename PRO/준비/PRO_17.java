@@ -36,6 +36,6 @@ public class PRO_17 {
             }
         }
 
-        return answer.toArray(new String[0]); // 생성자를 넘겨줘야함
+        return answer.toArray(new String[0]); // 타입을 알려줌
     }
 }
