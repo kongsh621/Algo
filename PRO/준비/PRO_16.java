@@ -3,9 +3,8 @@ package Programmers;
 import java.util.*;
 
 public class PRO_16 {
-    private static Map<String, Integer> map;
     public int[] solution(String today, String[] terms, String[] privacies) {
-        map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         // 맵핑을 위해 terms를 map으로 구성
         for (String t : terms){
             String name = t.split(" ")[0];
@@ -13,31 +12,32 @@ public class PRO_16 {
             map.put(name, mon);
         }
 
-        int year = Integer.parseInt(today.split("\\.")[0]);
-        int mon = Integer.parseInt(today.split("\\.")[1]);
-        int day = Integer.parseInt(today.split("\\.")[2]);
+        String[] d = today.split("\\.");
+        int year = Integer.parseInt(d[0]);
+        int mon = Integer.parseInt(d[1]);
+        int day = Integer.parseInt(d[2]);
 
         List<Integer> list = new ArrayList<>();
         for (int i = 1; i <= privacies.length; i++){
             String privacy = privacies[i-1];
-            if (!isValid(privacy, year, mon, day)){
+            if (!isValid(privacy, year, mon, day, map)){
                 list.add(i);
             }
         }
 
         return list.stream()
-                .sorted()
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
 
-    private boolean isValid(String privacy, int year, int month, int day){
+    private boolean isValid(String privacy, int year, int month, int day, Map<String, Integer> map){
         String alpha = privacy.split(" ")[1];
         String due = privacy.split(" ")[0];
 
-        int pY = Integer.parseInt(due.split("\\.")[0]);
-        int pM = Integer.parseInt(due.split("\\.")[1]);
-        int pD = Integer.parseInt(due.split("\\.")[2]);
+        String[] d = due.split("\\.");
+        int pY = Integer.parseInt(d[0]);
+        int pM = Integer.parseInt(d[1]);
+        int pD = Integer.parseInt(d[2]);
 
         int m = map.get(alpha);
         int newMonth = pM + m;
@@ -47,11 +47,8 @@ public class PRO_16 {
             newMonth -= 12;
         }
 
-        if (newYear > year ||
+        return newYear > year ||
                 (newYear == year && newMonth > month) ||
-                (newYear == year && newMonth == month && pD > day)){
-            return true;
-        }
-        return false;
+                (newYear == year && newMonth == month && pD > day);
     }
 }
